@@ -9,7 +9,7 @@
 <div class="container mt-5" style="max-width: 400px;">
   <h3 class="text-center mb-4">Register</h3>
 
-  <input id="name" class="form-control mb-2" placeholder="Name">
+  <input id="name" class="form-control mb-2" placeholder="Full Name">
   <input id="email" class="form-control mb-2" placeholder="Email">
   <input id="password" type="password" class="form-control mb-3" placeholder="Password">
 
@@ -20,6 +20,28 @@
   </p>
 </div>
 
-<script src="js/api.js"></script>
+<script>
+async function register() {
+    const data = {
+        full_name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+    };
+
+    const res = await fetch("http://127.0.0.1:8001/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+
+    if (res.ok) {
+        alert("User registered successfully!");
+        window.location.href = "login.html";
+    } else {
+        const err = await res.json();
+        alert(`Registration failed: ${err.detail}`);
+    }
+}
+</script>
 </body>
 </html>
