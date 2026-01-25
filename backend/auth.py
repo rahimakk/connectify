@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from database import SessionLocal
 from models import User
-from schemas import UserCreate
-from fastapi import status
-from schemas import LoginRequest , RegisterRequest
+from schemas import RegisterRequest, LoginRequest
 from passlib.context import CryptContext
+from pydantic import BaseModel, EmailStr
+from typing import Optional
 
 router = APIRouter()
 
@@ -54,3 +54,44 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
     db.refresh(new_user)
 
     return {"message": "User registered successfully", "user_id": new_user.id}
+class UpdateUserRequest(BaseModel):
+    full_name: str
+    email: EmailStr
+    password: Optional[str] = None  # Optional for updates
+
+@router.get("/users")
+def get_users(db: Session = Depends(get_db)):
+    users = db.query(User).all()
+    return [{"id": u.id, "full_name": u.full_name, "email": u.email} for u in users]
+
+@router.get("/users/{user_id}")
+def get_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return {"id": user.id, "full_name": user.full_name, "email": user.email}
+
+@router.patch("/users/{user_id}")
+def update_user(user_id: int, update_data: UpdateUserRequest, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    user.full_name = update_data.full_name
+    user.email = update_data.email
+    if update_data.password:
+        user.password = hash_password(update_data.password)
+
+    db.commit()
+    db.refresh(user)
+    return {"message": "User updated successfully", "user": {"id": user.id, "full_name": user.full_name, "email": user.email}}
+
+@router.delete("/users/{user_id}")
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    db.delete(user)
+    db.commit()
+    return {"message": "User deleted successfully"}
