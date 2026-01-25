@@ -1,9 +1,22 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from models import User
-from database import engine,Base
+from database import engine, Base
 from auth import router as auth_router
+
 app = FastAPI(title="Connectify API")
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # allow frontend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(auth_router)
+
 @app.get("/health")
 def health_check():
     return {
