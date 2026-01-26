@@ -65,7 +65,7 @@ def get_users(db: Session = Depends(get_db)):
     return [{"id": u.id, "full_name": u.full_name, "email": u.email} for u in users]
 
 @router.get("/users/{user_id}")
-def get_user(user_id: int, db: Session = Depends(get_db)):
+def get_user(user_id: int, current_user: dict = Depends(current_user)):
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")

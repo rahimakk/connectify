@@ -11,17 +11,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout your repo
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Step 2: Install Node.js
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
+      # Step 3: Install dependencies
+      - name: Install project dependencies
+        run: npm install
+
+      # Step 4: Start backend in background
+      - name: Start FastAPI server
+        run: |
+          pip install -r requirements.txt
+          uvicorn main:app --host 127.0.0.1 --port 8001 &
+          sleep 5
+
+
+      # Step 5: Install Newman globally
       - name: Install Newman
         run: npm install -g newman
 
+      # Step 6: Run API Tests
       - name: Run API Tests
         run: |
           newman run postman/connectify_collection.json \
