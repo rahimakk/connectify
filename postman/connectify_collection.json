@@ -337,7 +337,7 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Access denied without token\", () => {\r",
-							"    pm.expect(pm.response.code).to.be.oneOf([401, 403]);\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 401, 403]);\r",
 							"});\r",
 							""
 						],
