@@ -1,0 +1,39 @@
+{
+	"id": "165544b7-9f50-4a20-8957-700b67dfbfe7",
+	"name": "connectify local",
+	"values": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8001",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "email",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "password",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-01-26T06:31:09.637Z",
+	"_postman_exported_using": "Postman/11.70.5"
+}
