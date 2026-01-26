@@ -87,7 +87,7 @@
 					"script": {
 						"exec": [
 							"const jsonData = pm.response.json();\r",
-							"pm.environment.set(\"token\", jsonData.token);\r",
+							"pm.environment.set(\"token\", jsonData.access_token);\r",
 							""
 						],
 						"type": "text/javascript",
