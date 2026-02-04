@@ -14,12 +14,26 @@ This project simulates how real-world applications are **built, tested automatic
 ---
 
 ##  Project Structure
+
+```
 connectify/
-│
-├── backend/ # FastAPI backend (APIs + Database)
-├── frontend/ # HTML, CSS, JavaScript UI
-├── postman/ # Postman collection + environment
-└── .github/workflows/ # CI/CD pipeline
+├── backend/                 # FastAPI backend (APIs + Database)
+│   ├── main.py
+│   ├── models.py
+│   ├── database.py
+│   └── requirements.txt
+├── frontend/                # HTML, CSS, JavaScript UI
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+├── postman/                 # Postman collection + environment
+│   ├── Connectify.postman_collection.json
+│   └── environment.json
+├── .github/workflows/       # CI/CD pipeline
+│   └── test.yml
+└── README.md
+```
+
 
 
 ---
@@ -67,9 +81,8 @@ Frontend communicates directly with backend APIs.
 
 ##  API Automation (Postman)
 
-Located inside `/postman`
-
-We implemented **end-to-end API automation**.
+- Located inside `/postman`
+- We implemented **end-to-end API automation**.
 
 ###  API Chaining Flow
 - Register → Save Email
@@ -81,7 +94,7 @@ We implemented **end-to-end API automation**.
 ---
 
 
-### 📜 Scripts Used
+###  Scripts Used
 
 **Pre-request Script (Dynamic Data)**
 
